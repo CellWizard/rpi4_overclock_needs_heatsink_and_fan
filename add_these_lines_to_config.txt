@@ -1,0 +1,23 @@
+force_turbo=1
+#sdtv_mode=2
+temp_soft_limit=70
+#uncomment to overclock the arm. 700 MHz is the default.
+arm_freq=1000
+over_voltage=6
+core_freq=500
+avoid_warnings=2
+# Uncomment some or all of these to enable the optional hardware interfaces
+hdmi_ignore_edid=1
+dtparam=i2c_arm=on
+dtparam=i2c=on
+#dtparam=i2s=on
+dtparam=spi=on
+dtoverlay=i2c0
+dtoverlay=i2c1
+dtoverlay=i2c2
+dtoverlay=i2c3
+dtoverlay=i2c4
+dtoverlay=i2c5
+dtoverlay=i2c6
+dtoverlay=i2c7
+

@@ -1,0 +1,23 @@
+run installdeps.sh
+decompile the /boot/bcm2711-rpi-4-b.dtb file with dtc to a dts file
+replace all instances of the original address for i2c3 which should be where the x's are in this: """ i2c3 = "/soc/i2c@xxxxxxxx"; """
+with
+7e205e00
+in the dts file
+recompile the dts file to /boot/bcm2711-rpi-4-b.dtb
+The address for the I2C bus for the PMIC was hard to find, because it wasn't listed in any datasheet or code
+I had to compare the values for the other I2C bus registers until I found the same ones for the PMIC I2C bus by scanning every address with a 0x100 increment near the other I2C bus addresses
+add the lines in add_these_lines_to_config.txt to /boot/config.txt replacing any with the same entry name 
+then reboot the Pi 4 and run i2cdetect 3
+if everything worked so far, you should see 2 i2c devices occasionally some other ones might show up due to I2C bus conflicts, but they won't affect the other scripts
+compile devmem2 using make
+read overclocklower.sh and overclocksuper.sh and find the registers on here https://elinux.org/BCM2835_registers by searching for the register address with the first byte replaced with 0x7e instead of 0xfe due to address mapping
+calculate the voltage for the PMIC using this datasheet as a guide and the register values in the overclock scripts: https://www.maxlinear.com/ds/mxl7704.pdf
+An undocumented register in the PMIC is used to bypass failsafe reboots when overcurrent is detected
+if you only have a small heatsink try run watch.sh in one terminal, then run overclocklower.sh in another
+if nothing crashes, you should have a Pi 4 running over 2 GHz with the GPU frequency lowered a little
+you can try changing divider values in overclocklower.sh to adjust the core clocks
+comparing overclocksuper.sh with overclocklower.sh is a good way to see what adjusting the values do.
+overclocksuper.sh is a higher overclock, and it adjusts some of the other clocks to reduce power for some cores.
+
+
